@@ -1,0 +1,29 @@
+syntax = "proto3";
+package com.kkennib.grpc;
+
+message Work {
+  int32 no = 1;
+  int32 groupNo = 2;
+  repeated string keywords = 3;
+  repeated string channels = 4;
+  repeated string collectionDates = 5;
+  string state = 6;
+  string message = 7;
+}
+
+message Works {
+  repeated Work workList = 1;
+}
+
+message WorkResponse {
+  string state = 1;
+  string message = 2;
+}
+
+service WorkProtocolService {
+  rpc echo(Work) returns (WorkResponse);
+  rpc collectUrls(Works) returns (WorkResponse);
+  rpc collectDocs(Works) returns (WorkResponse);
+  rpc extractTexts(Works) returns (WorkResponse);
+  rpc extractContents(Works) returns (WorkResponse);
+}

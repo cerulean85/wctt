@@ -1,0 +1,8 @@
+@echo off
+
+NETSTAT -ano | FINDSTR "3001"
+NETSTAT -ano | FINDSTR "3002"
+NETSTAT -ano | FINDSTR "2181"
+NETSTAT -ano | FINDSTR "9092"
+TASKLIST | FINDSTR "python.exe"
+

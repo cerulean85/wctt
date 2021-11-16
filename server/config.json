@@ -1,0 +1,143 @@
+{
+  "server": {
+    "director": {
+      "addr": "localhost",
+      "port": 8084
+    },
+    "worker": {
+      "addr": "localhost",
+      "port": 8085
+    }
+  },
+
+  "storage": {
+    "save_dir": "../data/",
+    "kafka": {
+      "addr": "localhost",
+      "port": 9092
+    }
+  },
+
+  "channel_spec": ["nav", "ins", "twt", "jna", "dna"],
+
+  "model": {
+    "nav": {
+      "content_ptp_list": "nav_5233_y1_ptp_list.pickle",
+      "taf_rank": "nav_5233_text_rank_dct.pickle",
+      "taf_boundary_rank": 206
+    },
+    "twt": {
+      "content_ptp_list": "twt_3313_y1_ptp_list.pickle",
+      "taf_rank": "twt_3313_text_rank_dct.pickle",
+      "taf_boundary_rank": 166
+    },
+    "ins": {
+      "content_ptp_list": "ins_8664_y1_ptp_list.pickle",
+      "taf_rank": "ins_8664_text_rank_dct.pickle",
+      "taf_boundary_rank": 151
+    },
+    "jna": {
+      "content_ptp_list": "jna_3201_y1_ptp_list.pickle",
+      "taf_rank": "jna_3201_text_rank_dct.pickle",
+      "taf_boundary_rank": 149
+    },
+    "dna": {
+      "content_ptp_list": "dna_3900_y1_ptp_list.pickle",
+      "taf_rank": "dna_3900_text_rank_dct.pickle",
+      "taf_boundary_rank": 105
+    }
+  },
+
+  "chrome_driver": {
+    "path": "/chrome/chromedriver"
+  },
+
+  "twt": {
+    "domain": "https://twitter.com/",
+    "delay_time": 3,
+    "duplicated_limit_count": 10,
+    "limit_url_count": 3000,
+    "switch_to_iframe": false,
+    "data_load_method": "inf_scroll",
+    "direct_page_download": false,
+    "seed": {
+      "collect": "https://www.instagram.com/explore/tags/"
+    },
+    "account": {
+      "id": "zhwan85@gmail.com",
+      "pass": "!Wlsghks39682"
+    }
+  },
+
+  "ins": {
+    "domain": "https://www.instagram.com/",
+    "delay_time": 5,
+    "duplicated_limit_count": 10,
+    "limit_url_count": 200000,
+    "switch_to_iframe": false,
+    "data_load_method": "inf_scroll",
+    "direct_page_download": false,
+    "seed": {
+      "collect": "https://www.instagram.com/explore/tags/"
+    },
+    "account": {
+      "id": "zhwan85@gmail.com",
+      "pass": "!Wlsghks39682"
+    }
+  },
+
+  "nav": {
+    "delay_time": 3,
+    "duplicated_limit_count": 3,
+    "invoke_url_count": 300,
+    "limit_url_count": 500,
+    "limit_html_count": 3,
+    "switch_to_iframe": true,
+    "data_load_method": "page_nav",
+    "direct_page_download": false,
+    "seed": {
+      "probe": "https://section.blog.naver.com/Search/Post.nhn?pageNo=1&rangeType=PERIOD&orderBy=date&startDate=%s&endDate=%s&keyword=%s",
+      "collect": "https://section.blog.naver.com/Search/Post.nhn?pageNo=%s&rangeType=PERIOD&orderBy=date&startDate=%s&endDate=%s&keyword=%s"
+    }
+  },
+
+  "jna": {
+    "delay_time": 3,
+    "duplicated_limit_count": 3,
+    "limit_url_count": 3000,
+    "limit_html_count": 100,
+    "switch_to_iframe": false,
+    "data_load_method": "page_nav",
+    "direct_page_download": false,
+    "seed": {
+      "probe": "https://news.joins.com/Search/JoongangNews?StartSearchDate=%s&EndSearchDate=%s&Keyword=%s&SortType=New&SearchCategoryType=JoongangNews&PeriodType=DirectInput&ScopeType=All&ServiceCode=&SourceGroupType=&ReporterCode=&ImageType=All&JplusType=All&BlogType=All&ImageSearchType=Image&MatchKeyword=&IncludeKeyword=&ExcluedeKeyword=",
+      "collect": "https://news.joins.com/Search/JoongangNews?page=%s&Keyword=%s&PeriodType=DirectInput&StartSearchDate=%s&EndSearchDate=%s&SortType=New&SearchCategoryType=JoongangNews"
+    }
+  },
+
+  "dna": {
+    "delay_time": 3,
+    "duplicated_limit_count": 3,
+    "invoke_url_count": 500,
+    "limit_url_count": 1000,
+    "limit_html_count": 100,
+    "switch_to_iframe": false,
+    "data_load_method": "page_nav",
+    "direct_page_download": false,
+    "seed": {
+      "probe": "https://www.donga.com/news/search?check_news=1&more=1&sorting=1&range=1&search_date=5&v1=%s&v2=%s&query=%s",
+      "collect": "https://www.donga.com/news/search?p=%s&query=%s&check_news=1&more=1&sorting=1&range=1&search_date=5&v1=%s&v2=%s"
+    }
+  },
+
+  "chs": {
+    "delay_time": 3,
+    "switch_to_iframe": false,
+    "data_load_method": "page_nav",
+    "direct_page_download": false,
+    "seed": {
+      "probe": "https://search.naver.com/search.naver?where=news&query=%s&sm=tab_opt&sort=0&photo=0&field=0&reporter_article=&pd=3&ds=%s&de=%s&docid=&nso=so:r,p:from%sto%s,a:all&mynews=1&refresh_start=0&related=0",
+      "collect": "https://search.naver.com/search.naver?where=news&query=%s&sm=tab_opt&sort=0&photo=0&field=0&reporter_article=&pd=3&ds=%s&de=%s&docid=&nso=so:r,p:from%sto%s,a:all&mynews=1&refresh_start=0&related=0"
+    }
+  }
+}
