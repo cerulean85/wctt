@@ -1,9 +1,9 @@
-# jcoty
+# WCTT
 
 
-**J-COTY**
+**WCTT**
 
-**J**ust **CO**llect **T**ext on the web from **Y**ours.
+**W**eb **C**rawling system based on **T**ag path and **T**ext appearnce frequency
 
 
 **First**
@@ -16,20 +16,20 @@ Download ZIP package and unzip.
 
 __Three__
 
-Execute Script file.
+Execute Script file.Cancel changes
 
-If your OS is Windows, execute win-install.bat.
+If your OS is Windows, execute install.bat.
 
-If your OS is Linux, execute linux-install.bat.
+If your OS is Linux, execute install.sh.
 
 
 __Four__
 
 Start Execution file.
 
-If you OS is Windows, execute win-start.bat.
+If you OS is Windows, execute start.bat.
 
-If you OS is Linux, execute linux-start.bat.
+If you OS is Linux, execute start.sh.
 
 Then, you can see the browser that you can enroll and control you work.
 
