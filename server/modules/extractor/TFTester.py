@@ -8,6 +8,7 @@ from multiprocessing import Value, Process
 from modules.extractor import ExtractorConfig as tfg
 from modules.zhbase.ZHPandas import ZHPandas
 from modules.zhbase.ZHPickle import ZHPickle
+import TFLabelWorker as tfl
 
 np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 pd.set_option('display.max_columns', None)  ## 모든 열을 출력한다.
@@ -29,11 +30,12 @@ def create_doc_text_blocks(target_path, file_list, finished_file_count, total_fi
             target_file_list.append(file)
 
     print(target_file_list)
-    str_text_nodes = 'text,ptp,label\n'
+
     for file in target_file_list:
         try:
             wd = ExtractorTextNode()
 
+            str_text_nodes = 'text,tags,lb\n'
             for text_node in wd.create_text_node_list(target_path, file):
                 str_text_nodes += text_node["text"] + ',' + text_node["ptp"] + ',0\n'
 
@@ -80,6 +82,9 @@ def extract_features(target_path, channel):
     if not os.path.isdir(save_path):
         os.makedirs(save_path, exist_ok=True)
 
+    if not os.path.isdir(target_path):
+        os.makedirs(target_path, exist_ok=True)
+
     file_list = [file for file in os.listdir(target_path) if ".csv" in file]
 
     zhp = ZHPandas()
@@ -110,26 +115,35 @@ def read_features(target_path):
 if __name__ == '__main__':
     # extract_nodes("D:/__programming/__data3/", "ins")
 
-    pfile = "D:/__programming/jcoty/server/models/ins/ins_8664_y1_ptp_list.pickle"
-    # pfile = "D:/__programming/jcoty/server/models/nav/nav_5233_y1_ptp_list.pickle"
-    result = read_features(pfile)
-    print(result)
-    exit()
-    zhpk = ZHPickle()
-    result = zhpk.load(pfile)
-    no_list = ["html/head"]
-    # no_list = [
-    #     "html/body/div/div/div/div/div/div/div/div/div/div/div/table/tbody/tr/td/div/div/div/div/div/p",
-    #     "html/body/div/div/div/div/div/div/div/div/div/div/div/table/tbody/tr/td/div/div/h4"]
-    _tt = []
-    for tp in result:
-        if tp in no_list:
-            continue
-        _tt.append(tp)
-    result = _tt
-    zhpk.save(pfile, result)
-    print(result)
-
-    # extract_features("D:/__programming/__data3/", "jna")
-    # result = read_features("D:/__programming/__data3/jna/features/features.pickle")
+    # pfile = "D:/__programming/jcoty/server/models/ins/ins_8664_y1_ptp_list.pickle"
+    # # pfile = "D:/__programming/jcoty/server/models/nav/nav_5233_y1_ptp_list.pickle"
+    # result = read_features(pfile)
     # print(result)
+    # exit()
+    # zhpk = ZHPickle()
+    # result = zhpk.load(pfile)
+    # no_list = ["html/head"]
+    # # no_list = [
+    # #     "html/body/div/div/div/div/div/div/div/div/div/div/div/table/tbody/tr/td/div/div/div/div/div/p",
+    # #     "html/body/div/div/div/div/div/div/div/div/div/div/div/table/tbody/tr/td/div/div/h4"]
+    # _tt = []
+    # for tp in result:
+    #     if tp in no_list:
+    #         continue
+    #     _tt.append(tp)
+    # result = _tt
+    # zhpk.save(pfile, result)
+    # print(result)
+
+    # 1. 노드 추출
+    extract_nodes("D:/__programming/__data3/", "dna")
+
+    # 2. 레이블링
+    tfl.labeling_donga()
+    
+    # 3. model_creator로 모델 만들기
+
+    # extract_features("D:/__programming/__data3/", "dna")
+    # result = read_features("D:/__programming/__data3/dna/features/features.pickle")
+    # print(result)
+

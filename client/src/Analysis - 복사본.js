@@ -83,16 +83,6 @@ class Analysis extends React.Component{
         });
     }
 
-    removeStopwords = () => {
-        const data = {
-            id: this.state.item.id,
-            kindsOf: String(this.state.morphNoun === true ? 1: 0) + String(this.state.morphAdj === true ? 1: 0),
-            data_directory: this.state.item.proj_directory + "\\client\\stopwords.txt"
-        }
-        axios.post('http://localhost:3001/action/remove_stopwords', data).then( (response) => {
-        });
-    }
-
     createTables() {
         const data = {
             id: this.state.item.id,
@@ -212,7 +202,7 @@ class Analysis extends React.Component{
 
                 <div className="contents-text-outer">
                     <div className="contents-text-inner">
-                        <label style={{fontSize: 21, fontWeight:'bold'}}>본문 전처리</label>
+                        <label style={{fontSize: 21, fontWeight:'bold'}}>수집 작업 상세보기2</label>
                         &nbsp;&nbsp;<button onClick={this.props.prev} style={{height: 30}}>돌아가기</button>
                     </div>
                 </div>
@@ -226,13 +216,15 @@ class Analysis extends React.Component{
 
                     <div className="contents-text-outer">
                         <div className="contents-text-inner">
-                            {this.state.item.title}
+                            <input style={{textAlign: 'center', fontSize: 16}} type='text' onChange={this.onNameChanged} value={this.state.item.title}/>
+                            <button style={{
+                                width:50, fontSize:14, cursor:'pointer', height: 36, marginLeft: 6,
+                                backgroundColor:'#0099FF', color: '#FFFFFF', border:'0px'}}
+                                    onClick={this.updateName}>수정
+                            </button>
                         </div>
                     </div>
                 </div>
-
-                <div className="sub-title-box" style={{borderBottom: "1px solid #808080", marginBottom: 10}}/>
-
                 <div className="sub-title-box">
                     <div className="sub-title-outer" style={{width:'12%'}}>
                         <div className="sub-title-inner">키워드</div>
@@ -243,8 +235,6 @@ class Analysis extends React.Component{
                         </div>
                     </div>
                 </div>
-
-                <div className="sub-title-box" style={{borderBottom: "1px solid #808080", marginBottom: 10}}/>
 
                 <div className="sub-title-box">
                     <div className="sub-title-outer" style={{width:'12%'}}>
@@ -258,8 +248,6 @@ class Analysis extends React.Component{
                     </div>
                 </div>
 
-                <div className="sub-title-box" style={{borderBottom: "1px solid #808080", marginBottom: 10}}/>
-
                 <div className="sub-title-box">
                     <div className="sub-title-outer" style={{width:'12%'}}>
                         <div className="sub-title-inner">수집 채널</div>
@@ -271,51 +259,80 @@ class Analysis extends React.Component{
                     </div>
                 </div>
 
-                <div className="sub-title-box" style={{borderBottom: "1px solid #808080", marginBottom: 10}}/>
-
                 <div className="sub-title-box">
                     <div className="sub-title-outer" style={{width:'12%'}}>
-                        <div className="sub-title-inner">불용어</div>
+                        <div className="sub-title-inner">진행 상태</div>
                     </div>
                     <div style={{width:10 }}/>
-                    <div style={{fontSize: 14, textAlign:'left', display:'flex'}}>
-                        <ul style={{lineHeight: 1.8, paddingLeft: 20}}>
+
+                    <div style={{fontSize: 14}}>
+                        <ul style={{lineHeight: 2.3, paddingLeft: 20}}>
+                            <li>상태: <label style={{color: R.StateExpression[this.state.item.work_state].backgroundColor}}>
+                                {R.StateExpression[this.state.item.work_state].label}
+                            </label>
+                            </li>
                             <li>
-                                <div>
-                                    <button style={{
-                                        fontSize:14, cursor:'pointer', height: 50, borderRadius: 5,
-                                        backgroundColor:'#0099FF', color: '#FFFFFF', border:'0px'}}
-                                            onClick={this.extractMorphs}>불용어 입력
-                                    </button>
-                                    <div style={{fontSize:12, marginTop: 5}}>- 제거할 불용어를 입력한 후 저장해주세요.</div>
-                                </div>
+                                수집경로: <label style={{color:'#0099FF'}}>{data_directory}</label>
+                                &nbsp;&nbsp;<button className="open-btn" onClick={() => this.openSaveDir()}>열기</button>
+                            </li>
+                            <li>
+                                수집 채널별 수집 현황
+                                {collectionDetail}
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                <div className="sub-title-box" style={{borderBottom: "1px solid #808080", marginBottom: 10}}/>
+                <div className="sub-title-box" style={{borderBottom: "1px solid #000000", marginBottom: 10}}/>
 
+                <div className="contents-text-outer" style={{marginTop:40}}>
+                    <div className="contents-text-inner">
+                        <label style={{fontSize: 21, fontWeight:'bold'}}>데이터 전처리</label>
+                    </div>
+                </div>
+
+                <hr width={"100%"} color={"#555555"}/>
                 <div className="sub-title-box">
                     <div className="sub-title-outer" style={{width:'12%'}}>
-                        <div className="sub-title-inner">명사 추출</div>
+                        <div className="sub-title-inner">형태소 추출</div>
                     </div>
                     <div style={{width:10 }}/>
 
                     <div style={{fontSize: 14, textAlign:'left', display:'flex'}}>
                         <ul style={{lineHeight: 1.8, paddingLeft: 20}}>
                             <li>
+                                <div style={{fontSize:16}}>품사 선택</div>
+                                <div style={{fontSize:12}}>- 선택된 품사의 어휘만 추출합니다.</div>
+                                <div style={{display:"flex", marginTop: 5, marginBottom: 20}}>
+                                    <div style={{ textAlign: 'left', height:30, display:'flex'}}>
+                                        <CheckboxTarget
+                                            name={"morphNoun"}
+                                            style={{width:20, height:20}}
+                                            text={"명사"}
+                                            checked={this.state.morphNoun}
+                                            onChanged={this.onTargetChanged}
+                                        />
+                                    </div>
+                                    <div style={{ textAlign: 'left', marginLeft: 20, height:30, display:'flex'}}>
+                                        <CheckboxTarget
+                                            name={"morphAdj"}
+                                            style={{width:20, height:20}}
+                                            text={"형용사"}
+                                            checked={this.state.morphAdj}
+                                            onChanged={this.onTargetChanged}
+                                        />
+                                    </div>
+                                </div>
                                 <div>
                                     <button style={{
-                                        fontSize:14, cursor:'pointer', height: 50, borderRadius: 5,
+                                        fontSize:14, cursor:'pointer', height: 50,
                                         backgroundColor:'#0099FF', color: '#FFFFFF', border:'0px'}}
-                                            onClick={this.extractMorphs}>명사 추출하기
+                                            onClick={this.extractMorphs}>형태소 추출하기
                                     </button>
-                                    <div style={{fontSize:12, marginTop: 5}}>- 불용어를 제거하고 명사를 추출합니다.</div>
                                 </div>
                             </li>
                             <li style={{marginTop: 20}}>
-                                <div style={{fontSize:16}}>명사 추출 결과</div>
+                                <div style={{fontSize:16}}>형태소 추출 결과</div>
                                 <div style={{fontSize:12}}>
                                     - 저장경로:<label style={{color:'#0099FF'}}>{data_directory}</label>
                                     &nbsp;&nbsp;<button className="open-btn" onClick={() => this.executeFile("tf_table.csv")}>열기</button>
@@ -336,13 +353,13 @@ class Analysis extends React.Component{
                         <ul style={{lineHeight: 1.8, paddingLeft: 20}}>
                             <li>
                                 <div style={{fontSize:16}}>테이블 선택</div>
-                                <div style={{fontSize:12}}>- 생성할 테이블을 선택한 후 테이블 생성하기 버튼을 눌러주세요.</div>
+                                <div style={{fontSize:12}}>- 생성할 테이블을 선택해주세요.</div>
                                 <div style={{marginTop: 5, marginBottom: 20}}>
                                     <div style={{ textAlign: 'left', height:30, display:'flex'}}>
                                         <CheckboxTarget
                                             name={"tableTF"}
                                             style={{width:150, height:20}}
-                                            text={"단어-빈도 테이블 (Term-Frequency Table; TF Table)"}
+                                            text={"어휘-빈도 테이블 (Term-Frequency Table; TF Table)"}
                                             checked={this.state.tableTF}
                                             onChanged={this.onTargetChanged}
                                         />
@@ -360,14 +377,14 @@ class Analysis extends React.Component{
                                         <CheckboxTarget
                                             name={"tableTCOO"}
                                             style={{width:150, height:20}}
-                                            text={"단어 동시 출현 행렬 (Term Co-Occurrence Matrix)"}
+                                            text={"어휘 공출현 행렬 (Term Co-Occurrence Matrix)"}
                                             checked={this.state.tableTCOO}
                                             onChanged={this.onTargetChanged}
                                         />
                                     </div>
                                 </div>
                                 <button style={{
-                                    fontSize:14, cursor:'pointer', height: 50, borderRadius: 5,
+                                    fontSize:14, cursor:'pointer', height: 50,
                                     backgroundColor:'#0099FF', color: '#FFFFFF', border:'0px'}}
                                         onClick={this.createTables}>테이블 생성하기
                                 </button>
@@ -376,15 +393,15 @@ class Analysis extends React.Component{
                                 <div style={{fontSize:16}}>테이블 생성 결과</div>
 
                                 <div style={{fontSize:12}}>
-                                    - 단어-빈도 테이블: <label style={{color:'#0099FF'}}>{data_directory + "/xx_tf_table.csv"}</label>
+                                    - 어휘-빈도 테이블: <label style={{color:'#0099FF'}}>{data_directory + "/tf_table.csv"}</label>
                                     &nbsp;&nbsp;<button className="open-btn" onClick={() => this.executeFile("tf_table.csv")}>열기</button>
                                 </div>
                                 <div style={{fontSize:12}}>
-                                    - TF-IDF 테이블: <label style={{color:'#0099FF'}}>{data_directory + "/xx_tf_idf_table.csv"}</label>
+                                    - TF-IDF 테이블: <label style={{color:'#0099FF'}}>{data_directory + "/tf_idf_table.csv"}</label>
                                     &nbsp;&nbsp;<button className="open-btn" onClick={() => this.executeFile("tf_idf_table.csv")}>열기</button>
                                 </div>
                                 <div style={{fontSize:12}}>
-                                    - 단어 동시 출현 행렬: <label style={{color:'#0099FF'}}>{data_directory + "/xx_tf_coo_matrix.csv"}</label>
+                                    - 어휘 공출현 행렬: <label style={{color:'#0099FF'}}>{data_directory + "/tf_coo_matrix.csv"}</label>
                                     &nbsp;&nbsp;<button className="open-btn" onClick={() => this.executeFile("tf_coo_matrix.csv")}>열기</button>
                                 </div>
                             </li>

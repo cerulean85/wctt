@@ -168,3 +168,78 @@ input {
 .docs {
     margin: 40px;
 }
+
+.sub-title-box {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 18px;
+    display: flex;
+}
+
+.contents-text-outer {
+    position: relative;
+    min-height: 50px;
+    width: 70%;
+    margin-left: 10px;
+}
+
+.contents-text-inner {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    text-align: left;
+    padding-top:6px;
+    word-wrap: break-word;
+    color:#000000;
+}
+
+.sub-title-outer {
+    position: relative;
+    background-color:#dee2e6;
+    min-height: 50px;
+}
+
+.sub-title-inner {
+    position: absolute;
+    top: 50%;
+    /*요소의 높이의 반(50%) 만큼 위로 이동*/
+    transform: translateY(-50%);
+    width: 100%;
+    text-align: center;
+    font-size: 10pt;
+}
+
+.grid-item {
+
+}
+
+/*.grid-item:nth-child(3) {*/
+/*    grid-column: 1 / span 2;*/
+/*    grid-row: 2 / span 1;*/
+/*}*/
+
+/*.grid-item:nth-child(4) {*/
+/*    grid-column: 1 / span 2;*/
+/*    grid-row: 3 / span 1;*/
+/*}*/
+
+
+.open-btn{
+    font-size: 8pt;
+}
+
+table thead td {
+    background-color: #54585d;
+    color: #ffffff;
+    font-size: 8pt;
+    border: 1px solid #54585d;
+    text-align: center;
+}
+
+table tbody td {
+    color: #636363;
+    border: 1px solid #dddfe1;
+    font-size: 8pt;
+    text-align: center;
+}

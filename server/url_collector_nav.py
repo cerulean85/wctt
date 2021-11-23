@@ -61,7 +61,7 @@ def collect_urls(work, q):
                 os.makedirs(filepath, exist_ok=True)
 
             file_count = len(os.listdir(filepath))
-            if file_count == limit_html_count:
+            if file_count >= limit_html_count:
                 while not q.empty():
                     q.get()
                 break

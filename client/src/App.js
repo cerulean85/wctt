@@ -5,13 +5,12 @@ import * as R from "./Resources";
 import Header from './components/Header'
 import WorkTable from "./components/WorkTable";
 import PopupWorkCreate from "./components/PopupWorkCreate"
-import Collection from './Collection';
-import Analysis from './Analysis';
+import ProxyCollection from './ProxyCollection';
 import About from './About';
 import Docs from './Docs';
 
 const menuList = {
-    0: <Collection />,
+    0: <ProxyCollection />,
     1: <About />,
     2: <Docs />
 }
@@ -36,6 +35,7 @@ class App extends React.Component {
 
     toggleHoverState(state) { return { backgroundColor: '#323232' }; }
     toggleLeaveState(state) { return { backgroundColor: '#0046C0' }; }
+
 
     changeMenu = (menuIndex) =>{
         this.setState({menu : menuIndex})

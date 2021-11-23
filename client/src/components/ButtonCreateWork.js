@@ -23,7 +23,7 @@ class ButtonCreateWork extends React.Component {
 
             <button style={{
                         width:this.props.width, height: this.props.height,
-                        fontSize:18, marginTop: 40, cursor:'pointer',
+                        fontSize:16, marginTop: 20, cursor:'pointer',
                         backgroundColor: this.props.backgroundColor,
                         marginLeft: this.props.marginLeft,
                         opacity: this.state.opacity,

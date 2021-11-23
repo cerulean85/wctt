@@ -14,14 +14,15 @@ import config as cfg
 current_path = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
 conf = cfg.get_config(path=current_path)
 
+
 def date_range(start, end):
     start = datetime.strptime(start, "%Y-%m-%d")
     end = datetime.strptime(end, "%Y-%m-%d")
     dates = [(start + timedelta(days=i)).strftime("%Y-%m-%d") for i in range((end - start).days + 1)]
     return dates
 
-def collect_urls(work, q):
 
+def collect_urls(work, q):
     channel = work["channel"]
     general_type = ["nav", "twt", "dna", "jna"]
     if channel in general_type:
@@ -41,7 +42,8 @@ def collect_urls(work, q):
                 ucd.collect_urls(work, q)
 
     if channel == "ins":
-        uci.collect_urls(work)
+        uci.collect_urls(work, q)
+
 
 def collect_html(work, q):
     date_list = date_range(work["start_date"], work["end_date"])
@@ -50,7 +52,9 @@ def collect_html(work, q):
         work["end_date"] = date
         hd.download(work, q)
 
+
 if __name__ == '__main__':
+
     freeze_support()
     while True:
         # DB 조회

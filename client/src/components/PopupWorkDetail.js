@@ -128,6 +128,25 @@ class PopupWorkDetail extends React.Component {
         />;
     }
 
+    openSaveDir() {
+
+        const data = {
+            data_directory: this.state.item.data_directory + "\\csv\\" + this.state.item.id
+        }
+
+        axios.post('http://localhost:3001/action/open_directory', data).then( (response) => {
+        });
+    }
+
+    executeFile(filename) {
+        const data = {
+            data_directory: this.state.item.data_directory + "\\csv\\" + this.state.item.id + "\\df.csv"
+        }
+        // alert(this.state.item.data_directory + "\\csv\\" + this.state.item.id + "\\" + filename)
+        axios.post('http://localhost:3001/action/execute_file', data).then( (response) => {
+        });
+    }
+
     render() {
 
         // let tmpKwdSet = [
@@ -297,16 +316,13 @@ class PopupWorkDetail extends React.Component {
                     borderBottomLeftRadius: 8,
                     borderBottomRightRadius: 8
                 }}>
-                    <div style={{
-                        width: '100%',
-                        marginTop: 40,
-                        fontSize: 18,
-                        display:'flex'
-                    }}>
+                    <div className="sub-title-box">
                         <div style={{width:'5%' }}/>
-                        <div style={{width:'12%', textAlign:'center', paddingTop:8, paddingBottom:6, backgroundColor:'#dee2e6'}}>작업명</div>
+                        <div className="sub-title-outer" style={{width:'12%'}}>
+                            <div className="sub-title-inner">작업명</div>
+                        </div>
                         <div style={{width:10 }}/>
-                        <input style={{width: '30%', textAlign: 'center'}} type='text' onChange={this.onNameChanged} value={this.state.item.title}/>
+                        <input style={{width: '30%', textAlign: 'center', fontSize: 16}} type='text' onChange={this.onNameChanged} value={this.state.item.title}/>
                         <div style={{width:10 }}/>
                         <button style={{
                             width:50, fontSize:14, cursor:'pointer',
@@ -314,98 +330,182 @@ class PopupWorkDetail extends React.Component {
                                 onClick={this.updateName}>수정
                         </button>
                     </div>
-                    <div style={{
-                        width: '100%',
-                        marginTop: 30,
-                        fontSize: 18,
-                        display:'flex'
-                    }}>
+                    <div className="sub-title-box">
                         <div style={{width:'5%' }}/>
-                        <div style={{width:'12%', textAlign:'center', paddingTop:8, paddingBottom:3, backgroundColor:'#dee2e6'}}>키워드</div>
+                        <div className="sub-title-outer" style={{width:'12%'}}>
+                            <div className="sub-title-inner">키워드</div>
+                        </div>
                         <div style={{width:10 }}/>
-                        <div style={{width:'70%', textAlign:'left', paddingTop:6, wordWrap: 'break-word', color:'#7F7F7F'}}>
+                        <div className="contents-text-box">
                             {this.state.item.keywords}
                         </div>
                     </div>
 
-                    <div style={{
-                        width: '100%',
-                        marginTop: 30,
-                        fontSize: 18,
-                        display:'flex'
-                    }}>
+                    <div className="sub-title-box">
                         <div style={{width:'5%' }}/>
-                        <div style={{width:'12%', textAlign:'center', paddingTop:8, paddingBottom:3, backgroundColor:'#dee2e6'}}>수집기간</div>
+                        <div className="sub-title-outer" style={{width:'12%'}}>
+                            <div className="sub-title-inner">수집기간</div>
+                        </div>
                         <div style={{width:10 }}/>
-                        <div style={{display:'flex', paddingTop:6, color:'#7F7F7F'}}>{moment(this.state.item.start_date).format('YYYY-MM-DD')}&nbsp;~&nbsp;{moment(this.state.item.end_date).format('YYYY-MM-DD')}</div>
+                        <div className="contents-text-box">{moment(this.state.item.start_date).format('YYYY-MM-DD')}&nbsp;~&nbsp;{moment(this.state.item.end_date).format('YYYY-MM-DD')}</div>
                     </div>
 
-                    <div style={{
-                        width: '100%',
-                        marginTop: 30,
-                        fontSize: 18,
-                        display:'flex'
-                    }}>
+                    <div className="sub-title-box">
                         <div style={{width:'5%' }}/>
-                        <div style={{width:'12%', textAlign:'center', paddingTop:8, paddingBottom:3, backgroundColor:'#dee2e6'}}>수집대상</div>
+                        <div className="sub-title-outer" style={{width:'12%'}}>
+                            <div className="sub-title-inner">수집대상</div>
+                        </div>
+
                         <div style={{width:10 }}/>
-                        <div style={{width:'70%', paddingTop:6, textAlign:'left', wordWrap: 'break-word', color:'#7F7F7F'}}>{targets}</div>
+                        <div className="contents-text-box">{targets}</div>
                     </div>
 
-                    <div style={{
-                        width: '100%',
-                        marginTop: 40,
-                        fontSize: 18,
-                        display:'flex'
-                    }}>
+                    <div className="sub-title-box">
                         <div style={{width:'5%' }}/>
-                        <div style={{width:'12%', textAlign:'center', paddingTop:8, paddingBottom:3, backgroundColor:'#dee2e6'}}>진행상태</div>
+                        <div className="sub-title-outer" style={{width:'12%'}}>
+                            <div className="sub-title-inner">진행상태</div>
+                        </div>
                         <div style={{width:10 }}/>
-                        {this.renderProgressStateTextBox()}
-                        <div style={{ color:'#7F7F7F' }}>{collectionState}</div>
+
+                        <div style={{display: "grid", gridTemplateColumns: "1fr 2.2fr"}}>
+                            <div className="grid-item" style={{marginTop: 10}}>
+                                {this.renderProgressStateTextBox()}
+                            </div>
+                            <div className="grid-item" style={{ color:'#7F7F7F', marginTop: 12, fontSize: 14}}>
+                                {collectionState}
+                            </div>
+                            <div className="grid-item" style={{fontSize: 14, textAlign:'left', display:'flex'}}>
+                                <ul style={{lineHeight: 1.2, paddingLeft: 20}}>
+                                    <li>
+                                        수집경로: <label style={{color:'#0099FF'}}>{data_directory}</label>
+                                        &nbsp;&nbsp;<button className="open-btn" onClick={() => this.openSaveDir()}>열기</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="grid-item">{collectionDetail}</div>
+                        </div>
+
                     </div>
 
-                    <div style={{
-                        width: '100%',
-                        marginTop: 8,
-                        fontSize: 18,
-                        display:'flex'
-                    }}>
-                        <div style={{width:'15%' }}/>
+                    {/*<div style={{*/}
+                    {/*    width: '100%',*/}
+                    {/*    marginTop: 8,*/}
+                    {/*    fontSize: 18,*/}
+                    {/*    display:'flex'*/}
+                    {/*}}>*/}
+                    {/*    <div style={{width:'15%' }}/>*/}
+                    {/*    <div style={{fontSize: 14, textAlign:'left', display:'flex'}}>*/}
+                    {/*        <ul style={{lineHeight: 1.8}}>*/}
+                    {/*            <li>*/}
+                    {/*                수집경로: <label style={{color:'#0099FF'}}>{data_directory}</label>*/}
+                    {/*            </li>*/}
+                    {/*            <li>*/}
+                    {/*                단어-빈도표: <label style={{color:'#0099FF'}}>{data_directory + "/freq_all.csv"}</label>*/}
+                    {/*            </li>*/}
+                    {/*            <li>*/}
+                    {/*                동시출현빈도 행렬: <label style={{color:'#0099FF'}}>{data_directory + "/conc_all.csv"}</label>*/}
+                    {/*            </li>*/}
+                    {/*        </ul>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
+
+
+
+                    <div className="sub-title-box">
+                        <div style={{width:'5%' }}/>
+                        <div className="sub-title-outer" style={{width:'12%'}}>
+                            <div className="sub-title-inner">전처리</div>
+                        </div>
+                        <div style={{width:10 }}/>
                         <div style={{fontSize: 14, textAlign:'left', display:'flex'}}>
-                            <ul style={{lineHeight: 1.8}}>
+                            <ul style={{lineHeight: 1.8, paddingLeft: 20}}>
                                 <li>
-                                    수집경로: <label style={{color:'#0099FF'}}>{data_directory}</label>
+                                    <div style={{fontSize:16}}>형태소 선택</div>
+                                    <div style={{fontSize:12}}>- 추출할 품사를 선택해주세요.</div>
+                                    <div style={{display:"flex", marginTop: 5, marginBottom: 20}}>
+                                        <div style={{ textAlign: 'left', height:30, display:'flex'}}>
+                                            <input type="checkbox"
+                                                   style={{ width:20, height:20, marginTop:5 }}/>
+                                            <div style={{marginLeft: 5, paddingTop: 4}}>명사</div>
+                                        </div>
+                                        <div style={{ textAlign: 'left', marginLeft: 20, height:30, display:'flex'}}>
+                                            <input type="checkbox"
+                                                   style={{ width:20, height:20, marginTop:5 }}/>
+                                            <div style={{marginLeft: 5, paddingTop: 4}}>형용사</div>
+                                        </div>
+                                    </div>
                                 </li>
                                 <li>
-                                    단어-빈도표: <label style={{color:'#0099FF'}}>{data_directory + "/freq_all.csv"}</label>
+                                    <div style={{fontSize:16}}>테이블 선택</div>
+                                    <div style={{fontSize:12}}>- 생성할 테이블을 선택해주세요.</div>
+                                    <div style={{marginTop: 5, marginBottom: 20}}>
+                                        <div style={{ textAlign: 'left', height:30, display:'flex'}}>
+                                            <input type="checkbox"
+                                                   style={{ width:20, height:20, marginTop:5 }}/>
+                                            <div style={{marginLeft: 5, paddingTop: 4}}>어휘-빈도 테이블 (Term-Frequency Table; TF Table)</div>
+                                        </div>
+                                        <div style={{ textAlign: 'left', height:30, display:'flex'}}>
+                                            <input type="checkbox"
+                                                   style={{ width:20, height:20, marginTop:5 }}/>
+                                            <div style={{marginLeft: 5, paddingTop: 4}}>TF-IDF 테이블 (Term Frequency-Inverse Document Frequency Table)</div>
+                                        </div>
+                                        <div style={{ textAlign: 'left', height:30, display:'flex'}}>
+                                            <input type="checkbox"
+                                                   style={{ width:20, height:20, marginTop:5 }}/>
+                                            <div style={{marginLeft: 5, paddingTop: 4}}>어휘 공출현 행렬 (Term Co-Occurrence Matrix)</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <button style={{
+                                    fontSize:14, cursor:'pointer', height: 60,
+                                    backgroundColor:'#0099FF', color: '#FFFFFF', border:'0px'}}
+                                        onClick={this.updateName}>전처리 시작하기
+                                </button>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div className="sub-title-box">
+                        <div style={{width:'5%' }}/>
+                        <div className="sub-title-outer" style={{width:'12%'}}>
+                            <div className="sub-title-inner">전처리 결과</div>
+                        </div>
+                        <div style={{width:10 }}/>
+                        <div style={{fontSize: 14, textAlign:'left', display:'flex'}}>
+                            <ul style={{lineHeight: 1.8, paddingLeft: 20}}>
+                                <li>
+                                    어휘-빈도 테이블: <label style={{color:'#0099FF'}}>{data_directory + "/tf_table.csv"}</label>
+                                    &nbsp;&nbsp;<button className="open-btn" onClick={() => this.executeFile("tf_table.csv")}>열기</button>
                                 </li>
                                 <li>
-                                    동시출현빈도 행렬: <label style={{color:'#0099FF'}}>{data_directory + "/conc_all.csv"}</label>
+                                    TF-IDF 테이블: <label style={{color:'#0099FF'}}>{data_directory + "/tf_idf_table.csv"}</label>
+                                    &nbsp;&nbsp;<button className="open-btn" onClick={() => this.executeFile("tf_idf_table.csv")}>열기</button>
+                                </li>
+                                <li>
+                                    어휘 공출현 행렬: <label style={{color:'#0099FF'}}>{data_directory + "/tf_coo_matrix.csv"}</label>
+                                    &nbsp;&nbsp;<button className="open-btn" onClick={() => this.executeFile("tf_coo_matrix.csv")}>열기</button>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
-                    {collectionDetail}
-                    <div style={{
-                        width: '100%',
-                        marginTop: 40,
-                        fontSize: 18,
-                        display:'flex'
-                    }}>
-                        <div style={{width:'5%' }}/>
-                        <div style={{width:'12%', textAlign:'center', paddingTop:8, paddingBottom:3, backgroundColor:'#dee2e6'}}>시각화</div>
+                    {/*<div className="sub-title-box">*/}
+                    {/*    <div style={{width:'5%' }}/>*/}
+                    {/*    <div className="sub-title-outer" style={{width:'12%'}}>*/}
+                    {/*        <div className="sub-title-inner">시각화</div>*/}
+                    {/*    </div>*/}
+                    {/*    <div style={{width:10 }}/>*/}
+                    {/*    <div style={{fontSize: 14, textAlign:'left', display:'flex'}}>*/}
+                    {/*        <ul style={{lineHeight: 1.8, paddingLeft: 20}}>*/}
+                    {/*            <li>*/}
+                    {/*                워드클라우드*/}
+                    {/*            </li>*/}
+                    {/*            <img height={"400"}*/}
+                    {/*                 src={process.env.PUBLIC_URL + "\\wordcloud\\" + this.state.item.id + "\\wc_all.png"}/>*/}
+                    {/*        </ul>*/}
 
-                    </div>
-
-                    <div style={{width:'20%', paddingTop:5, textAlign: "left", marginLeft: 20 }}>
-                        <ul><li>워드클라우드</li></ul>
-                    </div>
-                    <div style={{float:"left", textAlign: "center", width: "100%", height: 400}}>
-                        <img height={"400"}
-                             src={process.env.PUBLIC_URL + "\\wordcloud\\" + this.state.item.id + "\\wc_all.png"}/>
-                    </div>
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </div>
             </div>
 

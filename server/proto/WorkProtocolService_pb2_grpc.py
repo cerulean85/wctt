@@ -16,8 +16,8 @@ class WorkProtocolServiceStub(object):
         """
         self.echo = channel.unary_unary(
                 '/com.kkennib.grpc.WorkProtocolService/echo',
-                request_serializer=proto_dot_WorkProtocolService__pb2.Work.SerializeToString,
-                response_deserializer=proto_dot_WorkProtocolService__pb2.WorkResponse.FromString,
+                request_serializer=proto_dot_WorkProtocolService__pb2.Works.SerializeToString,
+                response_deserializer=proto_dot_WorkProtocolService__pb2.Works.FromString,
                 )
         self.collectUrls = channel.unary_unary(
                 '/com.kkennib.grpc.WorkProtocolService/collectUrls',
@@ -38,6 +38,11 @@ class WorkProtocolServiceStub(object):
                 '/com.kkennib.grpc.WorkProtocolService/extractContents',
                 request_serializer=proto_dot_WorkProtocolService__pb2.Works.SerializeToString,
                 response_deserializer=proto_dot_WorkProtocolService__pb2.WorkResponse.FromString,
+                )
+        self.request = channel.unary_unary(
+                '/com.kkennib.grpc.WorkProtocolService/request',
+                request_serializer=proto_dot_WorkProtocolService__pb2.Works.SerializeToString,
+                response_deserializer=proto_dot_WorkProtocolService__pb2.Works.FromString,
                 )
 
 
@@ -74,13 +79,19 @@ class WorkProtocolServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def request(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_WorkProtocolServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'echo': grpc.unary_unary_rpc_method_handler(
                     servicer.echo,
-                    request_deserializer=proto_dot_WorkProtocolService__pb2.Work.FromString,
-                    response_serializer=proto_dot_WorkProtocolService__pb2.WorkResponse.SerializeToString,
+                    request_deserializer=proto_dot_WorkProtocolService__pb2.Works.FromString,
+                    response_serializer=proto_dot_WorkProtocolService__pb2.Works.SerializeToString,
             ),
             'collectUrls': grpc.unary_unary_rpc_method_handler(
                     servicer.collectUrls,
@@ -101,6 +112,11 @@ def add_WorkProtocolServiceServicer_to_server(servicer, server):
                     servicer.extractContents,
                     request_deserializer=proto_dot_WorkProtocolService__pb2.Works.FromString,
                     response_serializer=proto_dot_WorkProtocolService__pb2.WorkResponse.SerializeToString,
+            ),
+            'request': grpc.unary_unary_rpc_method_handler(
+                    servicer.request,
+                    request_deserializer=proto_dot_WorkProtocolService__pb2.Works.FromString,
+                    response_serializer=proto_dot_WorkProtocolService__pb2.Works.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -124,8 +140,8 @@ class WorkProtocolService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/com.kkennib.grpc.WorkProtocolService/echo',
-            proto_dot_WorkProtocolService__pb2.Work.SerializeToString,
-            proto_dot_WorkProtocolService__pb2.WorkResponse.FromString,
+            proto_dot_WorkProtocolService__pb2.Works.SerializeToString,
+            proto_dot_WorkProtocolService__pb2.Works.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -194,5 +210,22 @@ class WorkProtocolService(object):
         return grpc.experimental.unary_unary(request, target, '/com.kkennib.grpc.WorkProtocolService/extractContents',
             proto_dot_WorkProtocolService__pb2.Works.SerializeToString,
             proto_dot_WorkProtocolService__pb2.WorkResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def request(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/com.kkennib.grpc.WorkProtocolService/request',
+            proto_dot_WorkProtocolService__pb2.Works.SerializeToString,
+            proto_dot_WorkProtocolService__pb2.Works.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -4,7 +4,7 @@ from urllib import parse
 from selenium import webdriver
 import os, platform
 import datetime as pydatetime
-
+from webdriver_manager.chrome import ChromeDriverManager
 
 from selenium.webdriver.common.keys import Keys
 
@@ -39,17 +39,18 @@ def make_dir(save_dir, work_group_no, channel_spec):
 
 
 def get_chrome_driver(config_path=''):
-    conf = get_config(path=config_path)
-    current_path = config_path
-    osname = platform.system()
-    driver_path = current_path + conf["chrome_driver"]["path"] + ('' if osname == "Linux" else '.exe')
+    # conf = get_config(path=config_path)
+    # current_path = config_path
+    # osname = platform.system()
+    # driver_path = current_path + conf["chrome_driver"]["path"] + ('' if osname == "Linux" else '.exe')
     options = webdriver.ChromeOptions()
     # options.add_argument('headless')
     options.add_argument('--no-sandbox')
     # options.add_argument('disable-gpu')
     options.set_capability('unhandledPromptBehavior', 'accept')
     options.add_argument("--use-fake-ui-for-media-stream")
-    return webdriver.Chrome(driver_path, options=options)
+    # return webdriver.Chrome(driver_path, options=options)
+    return webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 
 def ins_login(chromeDriver, config_path=''):

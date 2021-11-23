@@ -8,12 +8,25 @@ from datetime import datetime, timedelta
 
 
 from eunjeon import Mecab
-str = "freq_all.csv"
-print(str.startswith("freq__", 0, 5))
-exit()
 
 mecab = Mecab()
 
+current_path = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
+conf = cfg.get_config(path=current_path)
+model_path = current_path + "/models/"
+content_ptp_list_path = model_path + 'dna/' + conf["model"]["dna"]["content_ptp_list"]
+taf_rank_path = model_path + 'dna/' + conf["model"]["dna"]["taf_rank"]
+taf_boundary_rank = conf["model"]["dna"]["taf_boundary_rank"]
+
+zhpk = ZHPickle()
+content_ptp_list = zhpk.load(content_ptp_list_path)  # work["model"]["content_ptp_list_path"]
+taf_rank_dict = zhpk.load(taf_rank_path)  # work["model"]["taf_rank_path"]
+taf_boundary_rank = taf_boundary_rank  # work["model"]["taf_boundary_rank"]
+
+
+print(content_ptp_list)
+
+exit()
 f = open("test.csv", 'r', encoding='utf-8')
 csv = f.read()
 f.close()

@@ -15,23 +15,21 @@ registerLocale('ko', ko)
 
 const ParentComponent = props => (
     <div>
-        <div style={{
-            width: '100%',
-            marginTop: 20,
-            fontSize: 18,
-            display:'flex',
-        }}>
-            <div style={{width:'5%' }}/>
-            <div style={{width:'10%', textAlign:'center', paddingTop:8, backgroundColor:'#dee2e6'}}>키워드1</div>
-            <div style={{width:10 }}/>
-            <input style={{width: '200', fontSize: 18, textAlign: "center"}} type='text' onChange={props.keywordChanged} value={props.keyword1}/>
-            <div style={{width:10 }}/>
+        <div className="sub-title-box">
+            <div className="sub-title-outer" style={{width:'12%'}}>
+                <div className="sub-title-inner">키워드1</div>
+            </div>
 
-            <button style={{
-                width:50, fontSize:14, cursor:'pointer',
-                backgroundColor:'#0099FF', color: '#FFFFFF', border:'0px'}}
-                    onClick={props.addChild}>추가
-            </button>
+            <div className="contents-text-outer">
+                <div className="contents-text-inner">
+                    <input style={{width:220, fontSize: 16, textAlign: "center"}} type='text' onChange={props.keywordChanged} value={props.keyword1}/>
+                    <button style={{
+                        width:50, fontSize:14, cursor:'pointer', height: 36, marginLeft: 6,
+                        backgroundColor:'#0099FF', color: '#FFFFFF', border:'0px'}}
+                            onClick={props.addChild}>추가
+                    </button>
+                </div>
+            </div>
 
         </div>
         <div>
@@ -41,18 +39,18 @@ const ParentComponent = props => (
 );
 
 const ChildComponent = (props) => <div>
-    <div style={{
-        width: '100%',
-        marginTop: 20,
-        fontSize: 18,
-        display:'flex'
-    }}>
-        <div style={{width:'5%' }}/>
-        <div style={{width:'10%', textAlign:'center', paddingTop:8, backgroundColor:'#dee2e6'}}>키워드{props.number}</div>
-        <div style={{width:10 }}/>
-        <input style={{width: '220', fontSize: 18, textAlign: "center"}} type='text'
-               onChange={props.keywordChanged}
-               value={props.keyword} />
+    <div className="sub-title-box">
+        <div className="sub-title-outer" style={{width:'12%'}}>
+            <div className="sub-title-inner">키워드{props.number}</div>
+        </div>
+
+        <div className="contents-text-outer">
+            <div className="contents-text-inner">
+                <input style={{width:220, fontSize: 18, textAlign: "center"}} type='text'
+                       onChange={props.keywordChanged}
+                       value={props.keyword} />
+            </div>
+        </div>
     </div>
 </div>;
 
@@ -195,31 +193,30 @@ class Collection extends React.Component{
         );
 
         return (
-            <div className="App">
-                <div style={{
-                    marginTop: 20,
-                    marginLeft: 30,
-                    marginBottom: 40,
-                    color: "#1F1F1F",
-                    textAlign: "left"
-                }}>
-                    <h2>Create a new task</h2>
-                    <h4>&nbsp;&nbsp;※ 새로운 수집 작업을 등록해주세요.</h4>
-                    <hr width={"100%"} color={"#555555"}/>
-                </div>
+            <div style={{
+                marginTop: 20,
+                marginLeft: 30,
+                marginRight: 30,
+                marginBottom: 40,
+                color: "#1F1F1F",
+                textAlign: "left",
+            }}>
+                <h2>수집 작업 등록</h2>
+                <h4>&nbsp;&nbsp;※ 새로운 수집 작업을 등록해주세요.</h4>
+                <hr width={"100%"} color={"#555555"}/>
 
-                <div style={{
-                    width: '100%',
-                    marginTop: 30,
-                    fontSize: 18,
-                    display:'flex'
-                }}>
-                    <div style={{width:'5%' }}/>
-                    <div style={{paddingTop:8, width:'10%', backgroundColor:'#dee2e6', textAlign:'center'}}>작업 이름</div>
-                    <div style={{width:10 }}/>
-                    <input style={{width: 220, fontSize: 18, textAlign: "center"}} type='text' onChange={this.onNameChanged} value={this.state.name}/>
-                    <div style={{width:'5%' }}/>
+                <div className="sub-title-box">
+                    <div className="sub-title-outer" style={{width:'12%'}}>
+                        <div className="sub-title-inner">작업명</div>
+                    </div>
+
+                    <div className="contents-text-outer">
+                        <div className="contents-text-inner">
+                            <input style={{width: 220, fontSize: 16, textAlign: "center"}} type='text' onChange={this.onNameChanged} value={this.state.name}/>
+                        </div>
+                    </div>
                 </div>
+                <div className="sub-title-box" style={{borderBottom: "1px solid #808080", marginBottom: 10}}/>
 
                 <ParentComponent
                     addChild={this.onAddChild}
@@ -238,117 +235,112 @@ class Collection extends React.Component{
                     {listItems}
                 </ParentComponent>
 
-                <div style={{
-                    width: '100%',
-                    marginTop: 20,
-                    fontSize: 18,
-                    display:'flex'
-                }}>
-                    <div style={{width:'5%' }}/>
-                    <div style={{width:'10%', textAlign:'center', paddingTop:8, backgroundColor:'#dee2e6'}}>수집 기간</div>
-                    <div style={{width:10 }}/>
-                    <DTPicker style={{width:100, textAlign:'center'}}
-                              onChange={this.onStartDateChanged}
-                              selected={this.state.startDate}
-                              locale={ko}
-                              dateFormat="시작일: yyyy-MM-dd"/>
-                    <div style={{width:'1%' }}/>
-                    <div style={{paddingTop:8}}>-</div>
-                    <div style={{width:'1%' }}/>
-                    <DTPicker style={{width:100, textAlign:'center'}}
-                              name='endDate'
-                              onChange={this.onEndDateChanged}
-                              selected={this.state.endDate}
-                              locale={ko}
-                              dateFormat="종료일: yyyy-MM-dd"/>
-                </div>
-
-                <div style={{
-                    width: '100%',
-                    marginTop: 20,
-                    fontSize: 18,
-                    display:'flex'
-                }}>
-                    <div style={{width:'5%' }}/>
-                    <div style={{width:'10%', textAlign:'center', paddingTop:8, paddingBottom:6, backgroundColor:'#dee2e6'}}>수집채널</div>
-                    <div style={{width:'3%' }}/>
-                    <div style={{width: '80%', display:'flex'}}>
-                        <CheckboxTarget
-                            name={"targetNaverBlog"}
-                            width={150}
-                            text={"네이버 블로그"}
-                            checked={this.state.targetNaverBlog}
-                            onChanged={this.onTargetChanged}
-                        />
-                        <div style={{width:25 }}/>
-                        <CheckboxTarget
-                            name={"targetTweeter"}
-                            width={100}
-                            text={"트위터"}
-                            checked={this.state.targetTweeter}
-                            onChanged={this.onTargetChanged}
-                        />
-                        <div style={{width:50 }}/>
-                        <CheckboxTarget
-                            name={"targetInstagram"}
-                            width={120}
-                            text={"인스타그램"}
-                            checked={this.state.targetInstagram}
-                            onChanged={this.onTargetChanged}
-                        />
+                <div className="sub-title-box" style={{borderBottom: "1px solid #808080", marginBottom: 10}}/>
+                <div className="sub-title-box">
+                    <div className="sub-title-outer" style={{width:'12%'}}>
+                        <div className="sub-title-inner">수집 채널</div>
                     </div>
-                </div>
-                <div style={{
-                    width: '100%',
-                    marginTop: 20,
-                    fontSize: 18,
-                    display:'flex'
-                }}>
-                    <div style={{width:'18%', textAlign:'center'}} />
-                    <div style={{width: '80%', display:'flex'}}>
-                        <CheckboxTarget
-                            name={"targetDonga"}
-                            width={125}
-                            text={"동아일보"}
-                            checked={this.state.targetTweeter}
-                            onChanged={this.onTargetChanged}
-                        />
-                        <div style={{width:50 }}/>
-                        <CheckboxTarget
-                            name={"targetJoongang"}
-                            width={100}
-                            text={"중앙일보"}
-                            checked={this.state.targetTweeter}
-                            onChanged={this.onTargetChanged}
-                        />
+
+                    <div className="contents-text-outer">
+                        <div className="contents-text-inner">
+                            <div style={{width:'3%' }}/>
+                            <div style={{width: '80%', display:'flex'}}>
+                                <CheckboxTarget
+                                    name={"targetNaverBlog"}
+                                    width={150}
+                                    text={"네이버 블로그"}
+                                    checked={this.state.targetNaverBlog}
+                                    onChanged={this.onTargetChanged}
+                                />
+                                <div style={{width:25 }}/>
+                                <CheckboxTarget
+                                    name={"targetTweeter"}
+                                    width={100}
+                                    text={"트위터"}
+                                    checked={this.state.targetTweeter}
+                                    onChanged={this.onTargetChanged}
+                                />
+                                <div style={{width:50 }}/>
+                                <CheckboxTarget
+                                    name={"targetInstagram"}
+                                    width={120}
+                                    text={"인스타그램"}
+                                    checked={this.state.targetInstagram}
+                                    onChanged={this.onTargetChanged}
+                                />
+                                <div style={{width:50 }}/>
+                                <CheckboxTarget
+                                    name={"targetDonga"}
+                                    width={120}
+                                    text={"동아일보"}
+                                    checked={this.state.targetTweeter}
+                                    onChanged={this.onTargetChanged}
+                                />
+                                <div style={{width:50 }}/>
+                                <CheckboxTarget
+                                    name={"targetJoongang"}
+                                    width={125}
+                                    text={"중앙일보"}
+                                    checked={this.state.targetTweeter}
+                                    onChanged={this.onTargetChanged}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div style={{textAlign: 'center', borderBottom: '1px solid #000000', marginLeft: 30}}>
+                <div className="sub-title-box" style={{borderBottom: "1px solid #808080", marginBottom: 10}}/>
+                <div className="sub-title-box">
+                    <div className="sub-title-outer" style={{width:'12%'}}>
+                        <div className="sub-title-inner">수집 기간</div>
+                    </div>
+
+                    <div className="contents-text-outer">
+                        <div className="contents-text-inner">
+                            <div style={{display:'flex'}}>
+                                <DTPicker style={{width:100, textAlign:'center'}}
+                                          onChange={this.onStartDateChanged}
+                                          selected={this.state.startDate}
+                                          locale={ko}
+                                          dateFormat="시작일: yyyy-MM-dd"/>
+
+                                <div style={{paddingTop:8}}>&nbsp;&nbsp;~&nbsp;&nbsp;</div>
+                                <div style={{width:'1%' }}/>
+                                <DTPicker style={{width:100, textAlign:'center'}}
+                                          name='endDate'
+                                          onChange={this.onEndDateChanged}
+                                          selected={this.state.endDate}
+                                          locale={ko}
+                                          dateFormat="종료일: yyyy-MM-dd"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style={{textAlign: 'center', borderTop: '1px solid #000000', marginTop:10}}>
                     <ButtonControlPopup width={120} height={40} backgroundColor={'#0099FF'} onClick={this.onSubmit} text={'등록하기'} style={{marginBottom:30}}/>
-                    <ButtonControlPopup width={80} height={40} backgroundColor={'#ACACAC'} onClick={this.props.handleClose} text={'초기화'} marginLeft={20} />
-                    <div style={{height:30}}></div>
+                    <ButtonControlPopup width={80} height={40} backgroundColor={'#ACACAC'} onClick={this.props.handleClose} text={'초기화'} marginLeft={10} />
                 </div>
 
 
                 <div className="App">
                     <div style={{
                         marginTop: 60,
-                        marginLeft: 30,
                         color: "#1F1F1F",
                         textAlign: "left"
                     }}>
-                        <h2>Task List</h2>
+                        <h2>수집 작업 목록 조회</h2>
                         <h4>&nbsp;&nbsp;※ 등록된 수집 작업 목록을 확인할 수 있습니다.</h4>
                         <hr width={"100%"} color={"#555555"}/>
                     </div>
 
-                    <WorkTable openPopup={this.togglePopup}/>
-                    {this.state.isOpen && <PopupWorkCreate
-                        content={<>
-                        </>}
-                        handleClose={this.togglePopup}
-                    />}
+                    <WorkTable detail={this.props.detail}/>
+                    {/*openPopup={this.togglePopup}*/}
+                    {/*{this.state.isOpen && <PopupWorkCreate*/}
+                    {/*    content={<>*/}
+                    {/*    </>}*/}
+                    {/*    handleClose={this.togglePopup}*/}
+                    {/*/>}*/}
                 </div>
 
 

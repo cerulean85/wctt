@@ -10,6 +10,7 @@ import time
 from collections import Counter
 import text_extractor as te
 import text_preprocessor as tp
+import datetime as pydatetime
 
 current_path = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
 conf = cfg.get_config(path=current_path)
@@ -85,6 +86,16 @@ def download(work, q):
 
                     work["source"] = str(chromeDriver.page_source)
                     work["index"] = file_count + 1
+                    html_save_path = work["html_save_dir"]
+                    curreunt_timestamp = str(pydatetime.datetime.now()).split('.')[0]
+
+                    html_log_file_path = html_save_path + '/logs.txt'
+                    if not os.path.isfile(html_log_file_path):
+                        with open(html_log_file_path, "w", encoding="utf-8") as f:
+                            f.write("[{}][{}] {}\n".format(channel, curreunt_timestamp, work["source"][0:50]))
+                    else:
+                        with open(html_log_file_path, "a", encoding="utf-8") as f:
+                            f.write("[{}][{}] {}\n".format(channel, curreunt_timestamp, work["source"][0:50]))
 
                     origin_save_path = work["csv_save_dir"] + '/origin'
                     if not os.path.isdir(origin_save_path):
@@ -107,15 +118,15 @@ def download(work, q):
                         file_count += 1
                         print("[{} / {}] Added Text: {}".format(file_count, limit_html_count, extracted_text[0:50]))
 
-                        p = Process(target=tp.preprocess_one, args=(work,))
-                        p.start()
+                        # p = Process(target=tp.preprocess_one, args=(work,))
+                        # p.start()
 
                     time.sleep(3)
 
                 if not is_continue:
-                    print("Preprocessing All...")
-                    p = Process(target=tp.preprocess_all, args=(work,))
-                    p.start()
+                    # print("Preprocessing All...")
+                    # p = Process(target=tp.preprocess_all, args=(work,))
+                    # p.start()
                     break
 
             if not is_continue:

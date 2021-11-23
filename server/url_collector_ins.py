@@ -22,7 +22,7 @@ def login(chromeDriver, conf):
 
     time.sleep(3)
 
-def collect_urls(work):
+def collect_urls(work, q):
     current_path = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
     conf = cfg.get_config(path=current_path)
     chromeDriver = cfg.get_chrome_driver(config_path=current_path)
@@ -37,21 +37,23 @@ def collect_urls(work):
 
     while True:
         a_list = chromeDriver.find_elements_by_tag_name('a')
-        url_list = []
+        url_set = set([])
         for a in a_list:
             try:
                 url = a.get_attribute("href")
                 if not str(url).find("https://www.instagram.com/p/"):
-                    url_list.append(url)
+                    url_set.add(url)
             except:
                 continue
 
-        if len(url_list) == 0:
+        if len(url_set) == 0:
             continue
 
-        kkconn.kafka_producer(url_list, work)
-        current_url_count += len(url_list)
-        print("Inserted {} URLS: {}, Current: {}".format(work["channel"], len(url_list), current_url_count))
+        for url in list(url_set):
+            q.put(url)
+
+        current_url_count += len(url_set)
+        print("Inserted {} URLS: {}, Current: {}".format(work["channel"], len(url_set), current_url_count))
         if current_url_count > limit_url_count:
             break
 

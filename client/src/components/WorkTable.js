@@ -53,37 +53,33 @@ class WorkTable extends React.Component {
 
         let listItems = <div
             style={{
-                margin: 'auto',
+                // margin: 'auto',
                 height: 120,
                 marginTop: 80,
                 fontSize: 18,
                 borderBottom: '1px solid #AEAEAE',
-                color: '#AEAEAE'
+                color: '#AEAEAE',
             }}>
             {this.state.message}</div>
         if(this.state.list.length > 0) {
             listItems = this.state.list.map((item) =>
-                <WorkItem value={item} openPopup={this.openPopup.bind(this, item)}/>
+                // <WorkItem value={item} openPopup={this.openPopup.bind(this, item)}/>
+                <WorkItem value={item} detail={this.props.detail}/>
             );
         }
 
         return (
 
-            <div
-                style={{
-                    margin: 'auto',
-                    width: '100%',
-                    marginLeft: 30,
-                }}>
+            <div>
 
                 {listItems}
 
-                {this.state.isOpen && <PopupWorkDetail
-                    item={this.state.popupItem}
-                    content={<>
-                    </>}
-                    handleClose={this.closePopup}
-                />}
+                {/*{this.state.isOpen && <PopupWorkDetail*/}
+                {/*    item={this.state.popupItem}*/}
+                {/*    content={<>*/}
+                {/*    </>}*/}
+                {/*    handleClose={this.closePopup}*/}
+                {/*/>}*/}
             </div>
         );
     }

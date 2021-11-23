@@ -13,28 +13,40 @@ def daemon():
         for work_group in work_group_list:
             report = {}
             target_csv_line_count = 0
-            html_save_dir = work_group.data_directory + "/html/"
-            csv_save_dir = work_group.data_directory + "/csv/"
+            html_log_file_path = work_group.data_directory + "/html/" + str(work_group.id) + "/logs.txt"
+            csv_save_dir = work_group.data_directory + "/csv/" + str(work_group.id) + '/origin'
             channels = work_group.channels.split(',')
             for channel in channels:
                 try:
-                    target_html_save_dir = cfg.get_save_dir(html_save_dir, work_group.id, channel)
-                    target_csv_save_dir = cfg.get_save_dir(csv_save_dir, work_group.id, channel)
-
-                    for filename in os.listdir(target_csv_save_dir):
-                        if ".csvf" in filename:
+                    for filename in os.listdir(csv_save_dir):
+                        if not filename.startswith(channel, 0, 3):
                             continue
-                        target_file_path = target_csv_save_dir + filename
-                        file = open(target_file_path, 'r', encoding="utf-8")
-                        csv_line_count = len(file.readlines()) #file.read().count('\n')+1
-                        target_csv_line_count += csv_line_count
+
+                        target_csv_save_dir = csv_save_dir + '/' + filename
+                        file = open(target_csv_save_dir, 'r', encoding="utf-8")
+                        # csv_line_count = len(file.readlines()) #file.read().count('\n')+1
+                        target_csv_line_count += len(file.readlines())
                         file.close()
 
+                    html_file_count = 0
+                    if os.path.isfile(html_log_file_path):
+                        html_log_file = open(html_log_file_path, 'r', encoding="UTF8")
+                        while True:
+                            line = html_log_file.readline()
+                            if not line: break
+                            print(line)
+                            if line.startswith("[{}]".format(channel), 0, 5):
+                                html_file_count += 1
+                        html_log_file.close()
+
                     report[channel] = {
-                        "html_file_count": len(os.listdir(target_html_save_dir)),
+                        "html_file_count": html_file_count, #len(os.listdir(target_html_save_dir)),
                         "csv_line_count": target_csv_line_count# len(os.listdir(target_csv_save_dir))
                     }
                     work_group.report = json.dumps(report, ensure_ascii=False)
+                    print(report)
+                    print(csv_save_dir)
+                    print(html_log_file_path)
 
                     db.session.commit()
                     db.session.flush()

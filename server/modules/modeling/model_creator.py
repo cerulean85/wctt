@@ -1,5 +1,7 @@
 import os
 
+from tqdm import tqdm
+
 import model_base as mb
 # import models
 from modules.zhbase.ZHPandas import ZHPandas
@@ -12,9 +14,9 @@ import pandas as pd
 # joongang = 149
 # donga = 105
 
-channel = "ins"
+channel = "dna"
 # path = "/data/train_data/{}/label/".format(channel)
-path = "D:/__programming/__data2/ins/label/"
+path = "D:/__programming/__data3/dna/label/"
 fp_list = [path + file for file in os.listdir(path)]
 
 df = None
@@ -38,7 +40,7 @@ def create_mergedDS(fp_mergedDS):
         res_df = zhpk.load(fp_mergedDS)
     else:
         filecount = 0
-        for filename in fp_list:
+        for filename in tqdm(fp_list, desc="Creating MergedDS"):
             if ".csv" not in filename:
                 continue
 
@@ -117,7 +119,6 @@ y1_ptp_list = create_y1_ptp_list(mergedDS, fp_y1_ptp_list)
 rank_dict = create_text_rank_dict(mergedDS, fp_text_rank_dct)
 ptp_token_dct = create_ptp_token(mergedDS, fp_ptp_token_dct)
 
-
 # 출현빈도
 text_list = []
 x2_list = []
@@ -134,7 +135,6 @@ for index in range(0, len(mergedDS)):
 x3_y_list = []
 for ptp in y1_ptp_list:
     x3_y_list.append(ptp_token_dct[ptp])
-
 
 print(len(x2_list), len(x3_list))
 

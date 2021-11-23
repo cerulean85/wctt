@@ -44,7 +44,7 @@
     "dna": {
       "content_ptp_list": "dna_3900_y1_ptp_list.pickle",
       "taf_rank": "dna_3900_text_rank_dct.pickle",
-      "taf_boundary_rank": 105
+      "taf_boundary_rank": 144
     }
   },
 
@@ -57,6 +57,7 @@
     "delay_time": 3,
     "duplicated_limit_count": 10,
     "limit_url_count": 3000,
+    "invoke_url_count": 1000,
     "switch_to_iframe": false,
     "data_load_method": "inf_scroll",
     "direct_page_download": false,
@@ -74,6 +75,8 @@
     "delay_time": 5,
     "duplicated_limit_count": 10,
     "limit_url_count": 200000,
+    "limit_html_count": 200000,
+    "invoke_url_count": 20,
     "switch_to_iframe": false,
     "data_load_method": "inf_scroll",
     "direct_page_download": false,

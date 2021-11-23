@@ -208,7 +208,8 @@ class WorkItem extends React.Component {
             onMouseEnter={this.handleMouseHover}
             onMouseLeave={this.handleMouseLeave}
             onClick={(e) => {
-                this.props.openPopup();
+                // this.props.openPopup();
+                this.props.detail(this.state.item.id);
             }}
             style={{
                 position: 'relative', width: '100%', height: itemViewHeight,

@@ -8,11 +8,66 @@ router.get('/', function(req, res) {
     res.send("Welcome!!" + util.currentDatetime() + "\n")
 });
 
-router.post('/echo', function(req, res) {
-   grpc.stub.echo(res, req, function (err, proto_res) {
+router.get('/echo', function(req, res) {
+   grpc.stub.echo({
+       workList: [{ requestType: 'Nice to meet you!!'}]
+   }, req, function (err, proto_res) {
        if (grpc.existReponsedResult(proto_res, err))
            return res.send(proto_res)
    })
+});
+
+router.post('/open_directory', function(req, res) {
+    grpc.stub.request({
+        workList: [{
+            requestType: 'open_directory',
+            message: req.body.data_directory
+        }]
+    }, req, function (err, proto_res) {
+        if (grpc.existReponsedResult(proto_res, err))
+            return res.send(proto_res)
+    })
+});
+
+router.post('/execute_file', function(req, res) {
+    grpc.stub.request({
+        workList: [{
+            requestType: 'execute_file',
+            message: req.body.data_directory
+        }]
+    }, req, function (err, proto_res) {
+        if (grpc.existReponsedResult(proto_res, err))
+            return res.send(proto_res)
+    })
+});
+
+router.post('/extract_morphs', function(req, res) {
+    const id = req.body.id
+    const dataDirectory = req.body.data_directory
+    grpc.stub.request({
+        workList: [{
+            requestType: 'extract_morphs',
+            message: id + ',' + dataDirectory
+        }]
+    }, req, function (err, proto_res) {
+        if (grpc.existReponsedResult(proto_res, err))
+            return res.send(proto_res)
+    })
+});
+
+router.post('/create_tables', function(req, res) {
+    const id = req.body.id
+    const dataDirectory = req.body.data_directory
+    const kindsOf =  req.body.kindsOf
+    grpc.stub.request({
+        workList: [{
+            requestType: 'create_tables',
+            message: id + ',' + dataDirectory + ',' +kindsOf
+        }]
+    }, req, function (err, proto_res) {
+        if (grpc.existReponsedResult(proto_res, err))
+            return res.send(proto_res)
+    })
 });
 
 router.post("/get_data_directory", function(req, res){
@@ -27,6 +82,50 @@ router.post("/get_work_group_list", function(req, res){
     query.query_select({
         "addr": "/get_work_group_list", "call_res": res, "reverse": false, "res_send": false,
         "sql": `SELECT * FROM work_groups WHERE deleted = 0`,
+        "emit": function (result) {
+            let workGroupList = []
+            var timestamp = new Date().getTime();
+
+            for (const workGroup of result) {
+
+                const updateTimeDTForm = util.stringToDatetime(workGroup.update_time)
+                var report = ''
+                try {
+                    if (workGroup.report != null)
+                        report = JSON.parse(workGroup.report)
+
+                } catch (e) {
+                    console.error(e)
+                }
+
+                workGroupList.push({
+                    "id": workGroup.id,
+                    "title": workGroup.title,
+                    "keywords": workGroup.keywords,
+                    "channels": workGroup.channels,
+                    "start_date": workGroup.start_date,
+                    "end_date": workGroup.end_date,
+                    "work_state": workGroup.work_state,
+                    "started": workGroup.update_time,
+                    "update_time": (timestamp - updateTimeDTForm.getTime()) / 1000,
+                    "report": report,
+                    "data_directory": workGroup.data_directory
+                })
+            }
+            res.send({
+                err: undefined,
+                totalCount: workGroupList.length,
+                list: workGroupList
+            })
+            console.log(workGroupList)
+        }
+    });
+})
+
+router.post("/get_work_group", function(req, res){
+    query.query_select({
+        "addr": "/get_work_group", "call_res": res, "reverse": false, "res_send": false,
+        "sql": `SELECT * FROM work_groups WHERE id= ${req.body.id} AND deleted = 0`,
         "emit": function (result) {
             let workGroupList = []
             var timestamp = new Date().getTime();
@@ -117,6 +216,44 @@ router.post("/terminate_work", function(req, res){
         "emit": function (result) {
         }
     });
+})
+
+router.post("/get_config", function(req, res){
+    query.query_select({
+        "addr": "/get_config", "call_res": res, "reverse": false, "res_send": false,
+        "sql": `SELECT * FROM config`,
+        "emit": function (result) {
+
+            let configList = []
+            for (const config of result) {
+
+                configList.push({
+                    "stopwords": config.stopwords,
+                })
+            }
+            res.send({
+                err: undefined,
+                list: configList
+            })
+
+        }
+    });
+})
+
+router.post("/update_stopwords", function(req, res){
+    query.query_insert({
+        "addr": "/update_stopwords", "call_res": res, "reverse": false, "res_send": true,
+        "sql": `UPDATE config SET stopwords = '${req.body.stopwords}'`,
+        "emit": function (result) {
+        }
+    });
+})
+
+router.get("/open_directory", function(req, res){
+    grpc.stub.openDirectory(res, req, function (err, proto_res) {
+        if (grpc.existReponsedResult(proto_res, err))
+            return res.send(proto_res)
+    })
 })
 
 module.exports = router;

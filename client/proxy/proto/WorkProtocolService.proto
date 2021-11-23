@@ -9,6 +9,7 @@ message Work {
   repeated string collectionDates = 5;
   string state = 6;
   string message = 7;
+  string requestType = 8;
 }
 
 message Works {
@@ -32,10 +33,11 @@ message AggregatedStates {
 }
 
 service WorkProtocolService {
-  rpc echo(Work) returns (WorkResponse);
+  rpc echo(Works) returns (Works);
   rpc collectUrls(Works) returns (WorkResponse);
   rpc collectDocs(Works) returns (WorkResponse);
   rpc extractTexts(Works) returns (WorkResponse);
   rpc extractContents(Works) returns (WorkResponse);
   rpc aggregate(Works) returns (AggregatedStates);
+  rpc request(Works) returns (Works);
 }

@@ -5,6 +5,7 @@ import config as cfg
 import kkconn
 
 current_path = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
+conf = cfg.get_config(path=current_path)
 def get_url(work, target_page_no, chromeDriver, conf):
     url_set = set([])
 
@@ -30,8 +31,6 @@ def get_url(work, target_page_no, chromeDriver, conf):
 
 
 def collect_urls(work, q):
-    current_path = os.path.dirname(os.path.realpath(__file__)).replace("\\", "/")
-    conf = cfg.get_config(path=current_path)
     chromeDriver = cfg.get_chrome_driver(config_path=current_path)
 
     current_url_count = 0
