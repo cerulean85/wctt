@@ -1,8 +1,7 @@
 # WCTT
 
 
-**WCTT**
-
+**WCTT** (**W**eb **C**rawling system based on **T**ag path and **T**ext appearnce frequency)
 View Paper: [**W**eb **C**rawling system based on **T**ag path and **T**ext appearnce frequency](https://kut.dcollection.net/public_resource/pdf/200000607787_20240305214629.pdf)
 
 
