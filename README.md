@@ -2,7 +2,8 @@
 
 
 **WCTT** (**W**eb **C**rawling system based on **T**ag path and **T**ext appearnce frequency)
-View Paper: [**W**eb **C**rawling system based on **T**ag path and **T**ext appearnce frequency](https://kut.dcollection.net/public_resource/pdf/200000607787_20240305214629.pdf)
+
+[View Paper](https://kut.dcollection.net/public_resource/pdf/200000607787_20240305214629.pdf)
 
 
 1) Download and install **Node.js**, **Python**, **JDK** in [this LINK](https://drive.google.com/drive/folders/1JCV8mvFtIXyZU1_v2MubHQOKHQ_IluQK?usp=sharing "Google Driver").
