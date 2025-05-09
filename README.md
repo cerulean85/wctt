@@ -1,7 +1,6 @@
 
 ## [**WCTT: HTML 문서 정형화 기반 웹 크롤링 시스템**](https://kut.dcollection.net/public_resource/pdf/200000607787_20240305214629.pdf)
 
----
 
 ### 1. 연구 배경 및 필요성
 
