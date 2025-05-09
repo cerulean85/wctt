@@ -1,10 +1,5 @@
-다음은 위 논문의 요약입니다:
 
----
-
-### 논문 제목 (추정):
-
-**WCTT: HTML 문서 정형화 기반 웹 크롤링 시스템**
+[**WCTT: HTML 문서 정형화 기반 웹 크롤링 시스템**](https://kut.dcollection.net/public_resource/pdf/200000607787_20240305214629.pdf)
 
 ---
 
@@ -68,13 +63,7 @@ WCTT는 HTML 문서를 정형화하여 채널 독립적인 본문 수집을 가�
 
 
 
-### ETC
-
-[View Paper](https://kut.dcollection.net/public_resource/pdf/200000607787_20240305214629.pdf)
-
-<br>
-
-## How To Use
+### 사용방법
 
 1) Download and install **Node.js**, **Python**, **JDK** in [this LINK](https://drive.google.com/drive/folders/1JCV8mvFtIXyZU1_v2MubHQOKHQ_IluQK?usp=sharing "Google Driver").
 
