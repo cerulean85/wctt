@@ -65,7 +65,7 @@ WCTT는 HTML 문서를 정형화하여 채널 독립적인 본문 수집을 가�
 
 ---
 
-### 사용방법
+### 00. 사용방법
 
 1) Download and install **Node.js**, **Python**, **JDK** in [this LINK](https://drive.google.com/drive/folders/1JCV8mvFtIXyZU1_v2MubHQOKHQ_IluQK?usp=sharing "Google Driver").
 
@@ -86,31 +86,5 @@ WCTT는 HTML 문서를 정형화하여 채널 독립적인 본문 수집을 가�
 - If you OS is Linux, execute start.sh.
 
 - Then, you can see the browser that you can enroll and control you work.
-
-
-## Others...
-
-__Node.js Forever Process Kill__
-
-netstat -ao | findstr 3001
-
-taskkill /F /PID [PROCESS ID]
-
-<br>
-
-__ZOOKEEPER__
-
-zookeeper.properties
-
-dataDir=%USERPROFILE%\tmp\zookeeper
-
-<br>
-
-__Kafka__
-
-server.properties
-
-log.dirs=%USERPROFILE%\tmp\kafka-logs
-
 
 
